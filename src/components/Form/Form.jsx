@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styles from './Form.module.css';
 
 export default function Form() {
   const [email, setEmail] = useState("");
@@ -22,17 +23,27 @@ export default function Form() {
     setEmail(value);
   }
 
+  function clearEmail() {
+    setEmail("");
+    setError("");
+  }
+
   function verifyEmail(value) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(value);
   }
 
   return (
-    <form noValidate onSubmit={handleSubmit}>
-      <label htmlFor="email">Email address</label>
-      <input type="email" id="email" value={email} onChange={handleChange} />
-      {error && <p>{error}</p>}
-      <button type="submit">Submit</button>
+    <form className={styles.form} noValidate onSubmit={handleSubmit}>
+        <label htmlFor="email">Email address:</label>
+        <div className={styles.inputRow}>
+          <input type="email" id="email" value={email} onChange={handleChange} />
+          <button type="button" onClick={clearEmail}>Clear</button>
+      </div>
+      <div className={styles.error}>
+        {error && <p>{error}</p>}
+      </div>
+      <button className={styles.submitButton} type="submit">Submit</button>
     </form>
   );
 }
